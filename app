@@ -1,31 +1,14 @@
-# Momentum Stock Screener - GitHub/Vercel Setup
+# Complete Momentum Stock Screener - Quick Setup
 
-## Project Structure
+## Step 1: Create Project Directory
 
-Create the following structure in your GitHub repository:
-
-```
-momentum-screener/
-├── package.json
-├── .gitignore
-├── README.md
-├── next.config.js
-├── pages/
-│   ├── _app.js
-│   ├── index.js
-│   └── api/
-│       └── market-data.js
-├── components/
-│   └── MomentumScreener.js
-├── styles/
-│   └── globals.css
-└── public/
-    └── favicon.ico
+```bash
+mkdir momentum-screener
+cd momentum-screener
 ```
 
-## File Contents
+## Step 2: Create package.json
 
-### 1. `package.json`
 ```json
 {
   "name": "momentum-stock-screener",
@@ -48,139 +31,37 @@ momentum-screener/
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.33",
-    "tailwindcss": "^3.4.0",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "14.0.4"
+    "tailwindcss": "^3.4.0"
   }
 }
 ```
 
-### 2. `.gitignore`
-```
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+## Step 3: Install Dependencies
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+```bash
+npm install
 ```
 
-### 3. `README.md`
-```markdown
-# Momentum Stock Screener
+## Step 4: Create Project Structure
 
-A real-time stock screening application for identifying high-probability momentum trades with 30-day return targets.
-
-## Features
-
-- Real-time market data integration with multiple financial APIs
-- Advanced filtering based on price, volume, market cap, and composite scores
-- Momentum analysis with technical indicators
-- Short squeeze potential detection
-- Export functionality to CSV
-- Responsive dark theme UI
-
-## Tech Stack
-
-- Next.js 14
-- React 18
-- Recharts for data visualization
-- Tailwind CSS for styling
-- Lucide React for icons
-
-## Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/momentum-screener.git
-   cd momentum-screener
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env.local` file with your API keys:
-   ```
-   ALPHA_VANTAGE_KEY=your_key_here
-   FINNHUB_KEY=your_key_here
-   TWELVE_DATA_KEY=your_key_here
-   POLYGON_KEY=your_key_here
-   NEWS_API_KEY=your_key_here
-   ```
-
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000)
-
-## Deployment
-
-This app is configured for easy deployment on Vercel:
-
-1. Push to GitHub
-2. Import project in Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy!
-
-## API Configuration
-
-The application uses multiple financial data APIs. Due to CORS restrictions, API calls are proxied through Next.js API routes.
-
-## License
-
-MIT
+Create these directories:
+```bash
+mkdir pages pages/api components styles public
 ```
 
-### 4. `next.config.js`
+## Step 5: Create Configuration Files
+
+### Create `next.config.js`:
 ```javascript
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  env: {
-    ALPHA_VANTAGE_KEY: process.env.ALPHA_VANTAGE_KEY,
-    FINNHUB_KEY: process.env.FINNHUB_KEY,
-    TWELVE_DATA_KEY: process.env.TWELVE_DATA_KEY,
-    POLYGON_KEY: process.env.POLYGON_KEY,
-    NEWS_API_KEY: process.env.NEWS_API_KEY,
-  },
 }
 
 module.exports = nextConfig
 ```
 
-### 5. `tailwind.config.js`
+### Create `tailwind.config.js`:
 ```javascript
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -195,7 +76,7 @@ module.exports = {
 }
 ```
 
-### 6. `postcss.config.js`
+### Create `postcss.config.js`:
 ```javascript
 module.exports = {
   plugins: {
@@ -205,7 +86,24 @@ module.exports = {
 }
 ```
 
-### 7. `pages/_app.js`
+### Create `.gitignore`:
+```
+node_modules
+.next
+.env.local
+.vercel
+```
+
+## Step 6: Create Main Application Files
+
+### Create `styles/globals.css`:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### Create `pages/_app.js`:
 ```javascript
 import '../styles/globals.css'
 
@@ -214,7 +112,7 @@ export default function App({ Component, pageProps }) {
 }
 ```
 
-### 8. `pages/index.js`
+### Create `pages/index.js`:
 ```javascript
 import MomentumScreener from '../components/MomentumScreener'
 
@@ -223,188 +121,196 @@ export default function Home() {
 }
 ```
 
-### 9. `styles/globals.css`
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#__next {
-  height: 100%;
-}
-
-* {
-  box-sizing: border-box;
-}
-```
-
-### 10. `pages/api/market-data.js`
+### Create `pages/api/market-data.js`:
 ```javascript
-import axios from 'axios';
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { symbols } = req.body;
+  // Mock data for demonstration
+  const mockData = [
+    {
+      symbol: 'SOUN',
+      name: 'SoundHound AI Inc.',
+      price: 9.57,
+      change: 2.35,
+      changePercent: 32.5,
+      volume: 125000000,
+      avgVolume: 25000000,
+      marketCap: 2850000000,
+      peRatio: -8.5,
+      week52High: 10.25,
+      week52Low: 1.62,
+      changePercent20D: 28.5,
+      changePercent252D: 143.0,
+      shortInterest: 18.5,
+      shortRatio: 3.2,
+      rsi: 68,
+      hasUpcomingEarnings: false,
+      earningsDate: '2025-08-15',
+      sector: 'Technology'
+    },
+    {
+      symbol: 'HOOD',
+      name: 'Robinhood Markets Inc.',
+      price: 82.75,
+      change: 3.25,
+      changePercent: 4.09,
+      volume: 18500000,
+      avgVolume: 15000000,
+      marketCap: 72000000000,
+      peRatio: 28.5,
+      week52High: 85.00,
+      week52Low: 21.34,
+      changePercent20D: 15.2,
+      changePercent252D: 285.0,
+      shortInterest: 12.3,
+      shortRatio: 2.1,
+      rsi: 72,
+      hasUpcomingEarnings: true,
+      earningsDate: '2025-07-28',
+      sector: 'Finance'
+    },
+    {
+      symbol: 'ENPH',
+      name: 'Enphase Energy Inc.',
+      price: 41.88,
+      change: 4.23,
+      changePercent: 11.24,
+      volume: 32000000,
+      avgVolume: 12000000,
+      marketCap: 5600000000,
+      peRatio: 45.2,
+      week52High: 89.54,
+      week52Low: 35.22,
+      changePercent20D: 11.3,
+      changePercent252D: -15.2,
+      shortInterest: 22.1,
+      shortRatio: 4.5,
+      rsi: 55,
+      hasUpcomingEarnings: false,
+      earningsDate: '2025-07-30',
+      sector: 'Energy'
+    },
+    {
+      symbol: 'SOFI',
+      name: 'SoFi Technologies Inc.',
+      price: 16.08,
+      change: 0.85,
+      changePercent: 5.58,
+      volume: 65000000,
+      avgVolume: 45000000,
+      marketCap: 15200000000,
+      peRatio: -12.5,
+      week52High: 17.84,
+      week52Low: 6.21,
+      changePercent20D: 8.9,
+      changePercent252D: 145.0,
+      shortInterest: 14.7,
+      shortRatio: 2.8,
+      rsi: 61,
+      hasUpcomingEarnings: true,
+      earningsDate: '2025-07-29',
+      sector: 'Finance'
+    },
+    {
+      symbol: 'NKE',
+      name: 'Nike Inc.',
+      price: 60.83,
+      change: -0.42,
+      changePercent: -0.69,
+      volume: 12000000,
+      avgVolume: 10000000,
+      marketCap: 92000000000,
+      peRatio: 22.5,
+      week52High: 78.43,
+      week52Low: 58.21,
+      changePercent20D: 3.2,
+      changePercent252D: -18.5,
+      shortInterest: 8.5,
+      shortRatio: 3.1,
+      rsi: 48,
+      hasUpcomingEarnings: true,
+      earningsDate: '2025-06-26',
+      sector: 'Consumer'
+    }
+  ];
 
-  // API Keys from environment variables
-  const API_KEYS = {
-    ALPHA_VANTAGE: process.env.ALPHA_VANTAGE_KEY,
-    FINNHUB: process.env.FINNHUB_KEY,
-    TWELVE_DATA: process.env.TWELVE_DATA_KEY,
-    POLYGON: process.env.POLYGON_KEY,
-    NEWS_API: process.env.NEWS_API_KEY,
-  };
-
-  try {
-    // Example: Fetch data from Alpha Vantage
-    // In production, you'd make parallel calls to multiple APIs
-    // and combine the data
-    
-    const mockData = [
-      {
-        symbol: 'SOUN',
-        name: 'SoundHound AI Inc.',
-        price: 9.57,
-        change: 2.35,
-        changePercent: 32.5,
-        volume: 125000000,
-        avgVolume: 25000000,
-        marketCap: 2850000000,
-        peRatio: -8.5,
-        week52High: 10.25,
-        week52Low: 1.62,
-        changePercent20D: 28.5,
-        changePercent252D: 143.0,
-        shortInterest: 18.5,
-        shortRatio: 3.2,
-        rsi: 68,
-        hasUpcomingEarnings: false,
-        earningsDate: '2025-08-15',
-        sector: 'Technology'
-      },
-      // Add more mock data or implement real API calls
-    ];
-
-    res.status(200).json({ data: mockData });
-  } catch (error) {
-    console.error('API Error:', error);
-    res.status(500).json({ error: 'Failed to fetch market data' });
-  }
+  res.status(200).json({ data: mockData });
 }
 ```
 
-### 11. `components/MomentumScreener.js`
-Copy your original component here with these modifications at the top:
+### Create `components/MomentumScreener.js`:
+Copy the complete component code from the previous artifact.
 
-```javascript
-import React, { useState, useEffect, useCallback } from 'react';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { TrendingUp, AlertCircle, Filter, RefreshCw, Download, Search, ChevronUp, ChevronDown, Info } from 'lucide-react';
-import axios from 'axios';
+## Step 7: Run Locally
 
-const MomentumScreener = () => {
-  // ... rest of your component code ...
-  
-  // Modify the fetchMarketData function to use the API route:
-  const fetchMarketData = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const watchlist = ['SOUN', 'HOOD', 'ENPH', 'SOFI', 'NKE', 'LCID', 'AI', 'UPST', 'RIVN', 'PLUG'];
-      
-      const response = await axios.post('/api/market-data', {
-        symbols: watchlist
-      });
-
-      const processedStocks = response.data.data.map(stock => ({
-        ...stock,
-        compositeScore: calculateCompositeScore(stock),
-        expectedReturn: Math.round((stock.changePercent20D * 1.5 + 10)),
-        probability: Math.round(60 + (stock.rsi - 50) / 2),
-        daysToTarget: Math.round(15 + Math.random() * 15),
-        entryRange: [stock.price * 0.98, stock.price * 1.01],
-        stopLoss: stock.price * 0.95,
-        target: [stock.price * 1.10, stock.price * 1.15]
-      }));
-
-      setStocks(processedStocks);
-      setFilteredStocks(processedStocks);
-      setLastUpdate(new Date());
-
-    } catch (err) {
-      setError('Unable to fetch market data. Please try again.');
-      console.error('API Error:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ... rest of your component ...
-};
-
-export default MomentumScreener;
+```bash
+npm run dev
 ```
 
-## Setup Instructions
+Visit http://localhost:3000
 
-1. **Create a new GitHub repository**
+## Step 8: Deploy to Vercel
 
-2. **Clone and set up locally:**
+### Option A: Deploy via Vercel CLI
+```bash
+npm i -g vercel
+vercel
+```
+
+### Option B: Deploy via GitHub
+1. Push to GitHub:
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin YOUR_GITHUB_REPO_URL
+git push -u origin main
+```
+
+2. Go to vercel.com
+3. Import your GitHub repository
+4. Deploy!
+
+## Troubleshooting 404 Errors
+
+If you get a 404 error:
+
+1. **Local Development**: Make sure you're running `npm run dev` and accessing `http://localhost:3000`
+
+2. **Vercel Deployment**: 
+   - Check the Vercel dashboard for build errors
+   - Ensure all files are properly committed to GitHub
+   - Check that the build command is `npm run build`
+   - Verify the output directory is `.next`
+
+3. **Common Fixes**:
    ```bash
-   git clone https://github.com/yourusername/momentum-screener.git
-   cd momentum-screener
+   # Clear cache and rebuild
+   rm -rf .next node_modules
    npm install
+   npm run build
+   npm run start
    ```
 
-3. **Create environment file** (`.env.local`):
-   ```
-   ALPHA_VANTAGE_KEY=JCNQCXS2AU1U4BA9
-   FINNHUB_KEY=d1esjr9r01qghj42ud30d1esjr9r01qghj42ud3g
-   TWELVE_DATA_KEY=f643f9567e234b21825cb26c9865fd2d
-   POLYGON_KEY=ZwqnynzUkRdJpFQSeID3i7yvxJaN9uX0
-   NEWS_API_KEY=c3159158-4e40-43fa-ab57-4f42006853b3
-   ```
+## Quick One-Line Setup
 
-4. **Test locally:**
-   ```bash
-   npm run dev
-   ```
+For the fastest setup, run these commands:
 
-5. **Push to GitHub:**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+```bash
+# Create project
+npx create-next-app@latest momentum-screener --no-typescript --tailwind --no-app --no-src-dir --import-alias "@/*"
 
-6. **Deploy to Vercel:**
-   - Go to [vercel.com](https://vercel.com)
-   - Click "Import Project"
-   - Select your GitHub repository
-   - Add environment variables in Vercel dashboard
-   - Deploy!
+# Navigate to project
+cd momentum-screener
 
-## Notes
+# Install additional dependencies
+npm install recharts lucide-react axios
 
-- The API route (`/api/market-data.js`) acts as a proxy to avoid CORS issues
-- Currently using mock data - implement real API calls in the API route
-- Environment variables are automatically available in Vercel after configuration
-- The app is fully responsive and optimized for production deployment
+# Start development server
+npm run dev
+```
+
+Then just copy the component code into `components/MomentumScreener.js` and update `pages/index.js` to import it.
